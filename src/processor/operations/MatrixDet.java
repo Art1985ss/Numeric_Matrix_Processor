@@ -6,14 +6,11 @@ import processor.MatrixException;
 import java.awt.*;
 
 public class MatrixDet extends MatrixOperation {
+
     @Override
-    public void execute() {
+    public void execute() throws MatrixException {
         userInput();
-        try {
-            System.out.println("Result is :\n" + determinate(matrix1));
-        } catch (MatrixException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("Result is :\n" + determinate(matrix1));
     }
 
     @Override
@@ -21,7 +18,7 @@ public class MatrixDet extends MatrixOperation {
         inputMatrix1();
     }
 
-    private double determinate(Matrix matrix) {
+    public double determinate(Matrix matrix) throws MatrixException {
         if (matrix.getRows() != matrix.getColumns()) {
             throw new MatrixException();
         }
@@ -36,14 +33,43 @@ public class MatrixDet extends MatrixOperation {
         return sum;
     }
 
-    private double minor(Matrix matrix) {
-        if (matrix.getRows() > 2) {
+    public Matrix cofactor(Matrix matrix) {
+        if (matrix.getRows() != matrix.getColumns()) {
             throw new MatrixException();
         }
-        return matrix.getValue(new Point(0, 0)) *
-                matrix.getValue(new Point(1, 1)) -
-                matrix.getValue(new Point(0, 1)) *
-                        matrix.getValue(new Point(1, 0));
+
+        Matrix matrixResult = new Matrix(matrix.getRows(), matrix.getColumns());
+        for (int row = 0; row < matrix.getRows(); row++) {
+            for (int col = 0; col < matrix.getColumns(); col++) {
+                double d = Math.pow(-1, row + 1 + col + 1);
+                double minor = 0;
+                if (matrix.getColumns() < 4) {
+                    minor = minor(createSubMatrix(matrix, row, col));
+                } else {
+                    minor = determinate(createSubMatrix(matrix, row, col));
+                }
+                Point p = new Point(row, col);
+                matrixResult.setValue(p, d * minor);
+
+            }
+        }
+        return matrixResult;
+    }
+
+    private double minor(Matrix matrix) {
+        if (matrix.getRows() == 2) {
+            return matrix.getValue(new Point(0, 0)) *
+                    matrix.getValue(new Point(1, 1)) -
+                    matrix.getValue(new Point(0, 1)) *
+                            matrix.getValue(new Point(1, 0));
+        }
+        double sum = 0;
+        for (int row = 0; row < matrix.getRows(); row++) {
+            for (int col = 0; col < matrix.getColumns(); col++) {
+                sum += minor(createSubMatrix(matrix, row, col));
+            }
+        }
+        return sum;
     }
 
     private Matrix createSubMatrix(Matrix matrix, int row, int col) {

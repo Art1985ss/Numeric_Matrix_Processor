@@ -11,6 +11,7 @@ public class ConsoleOptions {
             "3. Multiply matrices\n" +
             "4. Transpose matrix\n" +
             "5. Calculate a determinant\n" +
+            "6. Inverse matrix\n" +
             "0. Exit\n" +
             "Your choice:";
 

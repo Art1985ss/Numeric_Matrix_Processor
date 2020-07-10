@@ -55,7 +55,8 @@ public class Matrix {
         StringBuilder sb = new StringBuilder();
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < columns; col++) {
-                sb.append(matrix[row][col]).append(' ');
+                String s = String.format("%-15.2f", matrix[row][col]);
+                sb.append(s);
             }
             sb.append('\n');
         }

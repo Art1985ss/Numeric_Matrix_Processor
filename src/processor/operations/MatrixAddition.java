@@ -7,15 +7,11 @@ import java.awt.*;
 
 public class MatrixAddition extends MatrixOperation {
 
+
     @Override
-    public void execute() {
+    public void execute() throws MatrixException {
         userInput();
-        try {
-            System.out.println("Addition result is :\n");
-            System.out.println(sum());
-        } catch (MatrixException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("Addition result is :\n" + sum());
     }
 
     private Matrix sum() throws MatrixException {
@@ -31,6 +27,4 @@ public class MatrixAddition extends MatrixOperation {
         }
         return matrixSum;
     }
-
-
 }

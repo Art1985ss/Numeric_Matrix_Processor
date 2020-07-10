@@ -7,14 +7,9 @@ import java.awt.*;
 
 public class MatrixMultiplication extends MatrixOperation {
     @Override
-    public void execute() {
+    public void execute() throws MatrixException {
         userInput();
-        try{
-            System.out.println("The multiplication result is:");
-            System.out.println(multiply());
-        }catch (MatrixException e){
-            System.out.println(e.getMessage());
-        }
+        System.out.println("The multiplication result is:\n" + multiply());
     }
 
     private Matrix multiply() {

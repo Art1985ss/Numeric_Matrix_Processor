@@ -10,7 +10,7 @@ public abstract class MatrixOperation {
     protected Matrix matrix2;
     protected final Scanner scanner = new Scanner(System.in);
 
-    public abstract void execute();
+    public abstract void execute() throws MatrixException;
 
 
     protected void userInput() {
@@ -48,6 +48,8 @@ public abstract class MatrixOperation {
                 return new MatrixTransposition();
             case 5:
                 return new MatrixDet();
+            case 6:
+                return new MatrixInverse();
             default:
                 throw new MatrixException();
         }

@@ -9,13 +9,9 @@ public class MatrixTransposition extends MatrixOperation {
     private int selection;
 
     @Override
-    public void execute() {
+    public void execute() throws MatrixException {
         userInput();
-        try {
-            System.out.println(transpose());
-        } catch (MatrixException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println(transpose(matrix1, selection));
     }
 
 
@@ -34,46 +30,46 @@ public class MatrixTransposition extends MatrixOperation {
         inputMatrix1();
     }
 
-    private Matrix transpose() {
-        if (selection < 1 || selection > 4) {
+    public Matrix transpose(Matrix matrix, int mode) {
+        if (mode < 1 || mode > 4) {
             throw new MatrixException();
         }
-        Matrix matrix;
-        switch (selection) {
+        Matrix matrixResult;
+        switch (mode) {
             case 1:
             case 2:
-                matrix = new Matrix(matrix1.getColumns(), matrix1.getRows());
+                matrixResult = new Matrix(matrix.getColumns(), matrix.getRows());
                 break;
             case 3:
             case 4:
             default:
-                matrix = new Matrix(matrix1.getRows(), matrix1.getColumns());
+                matrixResult = new Matrix(matrix.getRows(), matrix.getColumns());
         }
-        new Matrix(matrix1.getRows(), matrix1.getColumns());
-        for (int row = 0; row < matrix1.getRows(); row++) {
-            for (int col = 0; col < matrix1.getColumns(); col++) {
+        new Matrix(matrix.getRows(), matrix.getColumns());
+        for (int row = 0; row < matrix.getRows(); row++) {
+            for (int col = 0; col < matrix.getColumns(); col++) {
                 Point p1 = new Point(row, col);
                 Point p = new Point(row, col);
-                switch (selection) {
+                switch (mode) {
                     case 1:
                         p = new Point(col, row);
                         break;
                     case 2:
-                        p = new Point(matrix.getColumns() - 1 - col,
-                                matrix.getRows() - 1 - row);
+                        p = new Point(matrixResult.getColumns() - 1 - col,
+                                matrixResult.getRows() - 1 - row);
                         break;
                     case 3:
-                        p = new Point(row, matrix.getColumns() - 1 - col);
+                        p = new Point(row, matrixResult.getColumns() - 1 - col);
                         break;
                     case 4:
-                        p = new Point(matrix.getRows() - 1 - row, col);
+                        p = new Point(matrixResult.getRows() - 1 - row, col);
                         break;
                     default:
                 }
-                matrix.setValue(p, matrix1.getValue(p1));
+                matrixResult.setValue(p, matrix.getValue(p1));
 
             }
         }
-        return matrix;
+        return matrixResult;
     }
 }
